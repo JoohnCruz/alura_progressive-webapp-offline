@@ -9,3 +9,66 @@ O App Cache não consegue adicionar arquivos ao cache que não estejam listados 
 precisamos saber todos os arquivos que serão cacheados para cada usuário para listá-los no manifest. 
 Isso que exige código no servidor para gerar esse arquivo. Ou seja, só com tecnologia front-end, não conseguimos 
 adicionar arquivos dinamicamente no App Cache.
+
+Sobre a API Cache Storage é correto dizer que:
+
+
+As instruções para abrir um cache caches.open e adicionar um arquivo ao cache cache.put são assíncronas e por isso o valor retornado por ambas é uma Promise.
+ 
+Uma Promise é uma forma de representar informações que só são acessíveis de forma assíncrona. Como elas fazem parte da linguagem javascript, as novas APIs que precisam lidar com dados assíncronos fazem forte uso das promises.
+Alternativa correta
+caches é o nome da variável que é a porta de entrada para o Cache Storage
+ 
+Todas as funções da API Cache Storage se encontram dentro da variável caches
+Alternativa correta
+Ela armazena não só o conteúdo do arquivo, mas toda a resposta que o servidor daquele arquivo enviou, incluindo todos os cabeçalhos do HTTP.
+ 
+O que salvamos na verdade é mais do que o conteúdo do arquivo. Armazenamos toda a resposta que o servidor enviou. Com a resposta inteira do servidor em mãos podemos futuramente simular que a resposta veio do servidor quando na verdade veio do Cache Storage. Esta aí um dos poderes do Cache Storage que utilizaremos nas próximas aulas.
+Alternativa correta
+O Cache Storage organiza os arquivos cacheados em vários caches que sempre devem ter um nome
+ 
+Para armazenar qualquer arquivo no Cache Storage é necessário abrir ou criar um cache com a instrução caches.open("nome do cache") pois todo arquivo cacheado deve ser colocado cache.
+
+
+
+
+Para que alterações em nossos arquivos sejam carregadas no Application Cache, o que deve ser feito?
+O arquivo de manifest precisa ser alterado de alguma maneira, mesmo que não adicionemos nenhum arquivo
+ novo.
+ 
+O App Cache só será novamente carregado se o arquivo de manifest sofrer alguma alteração. 
+Se nós apenas modificamos o conteúdo de um arquivo que já estava listado no manifest, 
+precisamos de alguma forma alterar esse arquivo de manifest. Um método muito usual é 
+adicionar um comentário no formato #numero indicando uma versão do App Cache. Sempre que quisermos 
+atualizar o cache, podemos aumentar o numero dessa versão no comentário.
+
+Após abrir o cache de imagens, como é possível procurarmos e recuperarmos uma ou mais repostas de arquivos que estavam dentro dele?
+Alternativa correta
+É possível com a função cache.match.
+ 
+As funções cache.match e cache.matchAll são as responsáveis por procurar e recuperar as respostas de arquivos.
+Alternativa correta
+É possível com a função cache.matchAll.
+ 
+As funções cache.match e cache.matchAll são as responsáveis por procurar e recuperar as respostas de arquivos.
+
+
+
+Como podemos fazer um Service Worker rodar?
+É necessário registrar o Service Worker através da função navigator.serviceWorker.register.
+ 
+Um Service Worker é o mesmo para todas as abas que tiverem a app aberta. 
+Não temos um Service Worker por aba, ele roda em paralelo com nossa app. Por isso, 
+é preciso registrar um Service Worker e não carregar ele a todo momento numa tag <script>.
+ Para registrar usamos a função navigator.serviceWorker.register.
+
+
+ Como o Service Worker nos permite interceptar os pedidos de arquivos que o navegador faz e acessar suas informações?
+
+ É possível acessar as informação do pedido feito pelo navegador através da propriedade event.request.
+ 
+Dentro do evento de fetch, podemos obter as informações do pedido através do parâmetro que recebemos no Event Listener. O parâmetro é comumente chamado de event e é possível acessar todas as informações pelaa sua propriedade request.
+
+É possível ouvir o evento de 'fetch'.
+ 
+É possível executar um código sempre que o navegador pede algum arquivo. Basta transfomar esse código numa função e adicioná-la como um Event Listener do evento fetch.
