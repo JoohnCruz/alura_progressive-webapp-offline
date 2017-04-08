@@ -53,7 +53,6 @@ Alternativa correta
 As funções cache.match e cache.matchAll são as responsáveis por procurar e recuperar as respostas de arquivos.
 
 
-
 Como podemos fazer um Service Worker rodar?
 É necessário registrar o Service Worker através da função navigator.serviceWorker.register.
  
@@ -72,3 +71,42 @@ Dentro do evento de fetch, podemos obter as informações do pedido através do 
 É possível ouvir o evento de 'fetch'.
  
 É possível executar um código sempre que o navegador pede algum arquivo. Basta transfomar esse código numa função e adicioná-la como um Event Listener do evento fetch.
+
+
+Após alterarmos o arquivo de um Service Worker e recarregarmos nossa app no navegador é possível ver que o Service Worker novo foi instalado. Depois da instalação, o que acontece com os Service Workers?
+Alternativa correta
+O Service Worker mais novo é instalado, porém permanece desativado (sem uso) até que todas as abas do navegador que estejam abertas na app sejam fechadas.
+ 
+Todo Service Worker é instalado automaticamente quando seu arquivo é atualizado. Porém, a versão nova permanece desativada (sem uso) até que todas as abas do navegador que estejam abertas na app sejam fechadas. Quem decide quando um Service Worker será ativado é ou o navegador ou o desenvolvedor (é possível por exemplo, ativar um Service Worker pelo Developer Tools). Um mesmo Service Worker só terá uma versão ativada ao mesmo tempo.
+
+
+
+
+Todas as respostas de arquivos que nossa app pede vêm do Service Worker, pois estamos ouvindo o evento fetch e executando a função event.respondWith. O que acontece se nesse evento nós apenas respondermos com o que acharmos no Cache Storage?
+
+As respostas de arquivos que não forem encontradas no Cache Storage serão dadas como vazias, ou seja, esses arquivos pedidos e não cacheados não serão carregados.
+ 
+Se uma resposta de arquivo não é achada no Cache Storage, teremos uma resposta vazia e nada de erros. No nosso caso que temos apenas cache de imagens, qualquer outro arquivo não será encontrado, e para o browser não poderá ser carregado.
+
+
+
+04) Porque nossa app não funcionava mais offline mesmo com o Application Cache totalmente configurado?
+Pois os Service Workers juntamente com o Cache Storage substituem totalmente o Application Cache.
+ 
+O poder dos Service Workers em conjunto com o Cache Storage permite fazer muito mais coisas em relação ao Application Cache. O Application Cache é automaticamente desativado quando um Service Worker é registrado.
+
+05) Como os Service Workers permitirão que nossa app funcione offline?
+Com o Service Worker será possível dizer ao navegador quando ele deve pegar as informações do Cache Storage e quando ele deve pegar da rede ou do servidor.
+ 
+Um dos poderes de um Service Worker é poder interceptar todos os pedidos/requests que o navegador fizer. Com esse poder podemos dizer para o navegador usar as respostas que já armazenamos no Cache Storage ao invés de se conectar na rede e pedir a resposta para um servidor.
+
+Poderemos baixar os arquivos da app no Cache Storage durante o processo de instalação do Service Worker.
+ 
+Dentro de um Service Worker temos acesso à uma API poderosa, acessar o Cache Storage no processo de instalação permitirá baixarmos todos os arquivos que precisamos na primeira vez que abrimos a app.
+
+06) Agora que guardamos todas as respostas de arquivos no Cache Storage, começamos a organizar os caches por nomes. Temos o cache ceep-imagens e o cache ceep-arquivos. Como podemos buscar uma resposta em ambos os caches de uma só vez?
+É possível utilizando a função caches.match.
+ 
+Se a busca por respostas de arquivos não for específica para um cache, podemos utilizar a função caches.match que irá procurar em todos os caches.
+
+
